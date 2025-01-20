@@ -1,55 +1,58 @@
-// src/components/Admin/ManageGroups.js
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../services/api';
+import { supabase } from '../../services/supabase';
 
 const ManageGroups = () => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    const fetchGroups = async () => {
-      const { data, error } = await supabase.from('groups').select('*');
-      if (error) {
-        console.error(error);
-      } else {
-        setGroups(data);
-      }
-    };
-
     fetchGroups();
   }, []);
 
-  const deleteGroup = async (id) => {
-    const { error } = await supabase.from('groups').delete().eq('id', id);
-    if (error) {
-      console.error('Error deleting group:', error.message);
-    } else {
+  const fetchGroups = async () => {
+    try {
+      const { data, error } = await supabase.from('groups').select('*');
+      if (error) throw error;
+      setGroups(data);
+    } catch (error) {
+      console.error('Error fetching groups:', error.message);
+    }
+  };
+
+  const handleDeleteGroup = async (id) => {
+    try {
+      const { error } = await supabase.from('groups').delete().eq('id', id);
+      if (error) throw error;
       setGroups(groups.filter(group => group.id !== id));
+    } catch (error) {
+      console.error('Error deleting group:', error.message);
     }
   };
 
   return (
-    <div className="manage-groups p-6 bg-white shadow-lg rounded-md">
-      <h1 className="text-3xl font-bold mb-5">Manage Groups</h1>
-      <div className="group-list">
-        {groups.length > 0 ? (
-          groups.map((group) => (
-            <div key={group.id} className="group-item flex justify-between items-center p-4 bg-gray-100 rounded-lg mb-4">
-              <div>
-                <h2 className="text-xl font-semibold">{group.name}</h2>
-                <p>{group.description}</p>
-              </div>
-              <button
-                onClick={() => deleteGroup(group.id)}
-                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-              >
-                Delete
-              </button>
-            </div>
-          ))
-        ) : (
-          <p>No groups available to manage.</p>
-        )}
-      </div>
+    <div>
+      <h2 className="text-2xl font-semibold mb-4">Manage Groups</h2>
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="bg-gray-200">
+            <th className="border px-4 py-2">ID</th>
+            <th className="border px-4 py-2">Name</th>
+            <th className="border px-4 py-2">Link</th>
+            <th className="border px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {groups.map(group => (
+            <tr key={group.id}>
+              <td className="border px-4 py-2">{group.id}</td>
+              <td className="border px-4 py-2">{group.name}</td>
+              <td className="border px-4 py-2"><a href={group.link} target="_blank" rel="noopener noreferrer">{group.link}</a></td>
+              <td className="border px-4 py-2">
+                <button onClick={() => handleDeleteGroup(group.id)} className="text-red-600 hover:text-red-800">Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 // src/components/Admin/AdminDashboard.js
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../services/api';
+import { supabase } from '../../services/supabase';
 
 const AdminDashboard = () => {
   const [groupsCount, setGroupsCount] = useState(0);

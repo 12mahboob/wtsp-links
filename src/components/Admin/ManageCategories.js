@@ -1,6 +1,6 @@
 // src/components/Admin/ManageCategories.js
 import React, { useState, useEffect } from 'react';
-import { supabase } from '../../services/api';
+import { supabase } from '../../services/supabase';
 
 const ManageCategories = () => {
   const [categories, setCategories] = useState([]);

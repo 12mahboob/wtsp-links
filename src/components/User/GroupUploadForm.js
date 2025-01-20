@@ -1,62 +1,56 @@
-// src/components/User/GroupUploadForm.js
 import React, { useState } from 'react';
-import { supabase } from '../../services/api';
+import { supabase } from '../../services/supabase';
 
 const GroupUploadForm = () => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [groupName, setGroupName] = useState('');
+  const [groupLink, setGroupLink] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const { data, error } = await supabase.from('groups').insert([
-      {
-        name,
-        description,
-      },
-    ]);
-
-    if (error) {
+    try {
+      const { data, error } = await supabase.from('groups').insert({
+        name: groupName,
+        link: groupLink,
+      });
+      if (error) throw error;
+      setGroupName('');
+      setGroupLink('');
+    } catch (error) {
       console.error('Error uploading group:', error.message);
-      alert('Error uploading group');
-    } else {
-      alert('Group uploaded successfully!');
-      setName('');
-      setDescription('');
     }
   };
 
   return (
-    <div className="group-upload-form p-6 bg-white shadow-lg rounded-md w-full max-w-md mx-auto mt-5">
-      <h2 className="text-2xl font-bold mb-4">Upload a New Group</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Group Name"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <textarea
-            placeholder="Group Description"
-            className="w-full p-2 border border-gray-300 rounded"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="w-full p-3 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Upload Group
-        </button>
-      </form>
-    </div>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div>
+        <label htmlFor="groupName" className="block text-sm font-medium text-gray-700">Group Name</label>
+        <input
+          type="text"
+          id="groupName"
+          className="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          value={groupName}
+          onChange={(e) => setGroupName(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label htmlFor="groupLink" className="block text-sm font-medium text-gray-700">Group Link</label>
+        <input
+          type="url"
+          id="groupLink"
+          className="w-full px-3 py-2 border rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          value={groupLink}
+          onChange={(e) => setGroupLink(e.target.value)}
+          required
+        />
+      </div>
+      <button
+        type="submit"
+        className="w-full px-4 py-2 text-white bg-blue-500 rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+      >
+        Upload Group
+      </button>
+    </form>
   );
 };
 
