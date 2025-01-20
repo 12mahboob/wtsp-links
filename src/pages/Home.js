@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { supabase } from '../services/supabase';
@@ -66,6 +67,13 @@ const Home = () => {
       </ul>
     </div>
   );
+=======
+import React from "react";
+import Homepage from "../components/User/Homepage";
+
+const Home = () => {
+  return <Homepage />;
+>>>>>>> f4ff1c57 (hi)
 };
 
 export default Home;

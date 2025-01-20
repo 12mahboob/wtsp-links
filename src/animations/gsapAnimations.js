@@ -1,17 +1,17 @@
-// src/animations/gsapAnimations.js
-import { gsap } from 'gsap';
+import { gsap } from "gsap";
 
-export const fadeIn = (element, duration = 1) => {
-  gsap.fromTo(element, 
-    { opacity: 0 }, 
-    { opacity: 1, duration }
+export const fadeIn = (target, duration = 1) => {
+  gsap.fromTo(
+    target,
+    { opacity: 0 },
+    { opacity: 1, duration, ease: "power3.out" }
   );
 };
 
-export const slideIn = (element, direction = 'left', distance = 100, duration = 1) => {
-  const xValue = direction === 'left' ? -distance : distance;
-  gsap.fromTo(element, 
-    { x: xValue, opacity: 0 }, 
-    { x: 0, opacity: 1, duration }
+export const slideUp = (target, duration = 1) => {
+  gsap.fromTo(
+    target,
+    { y: 50, opacity: 0 },
+    { y: 0, opacity: 1, duration, ease: "power3.out" }
   );
 };

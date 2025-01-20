@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from 'react';
 import ManageGroups from '../components/Admin/ManageGroups';
 
@@ -8,6 +9,13 @@ const AdminPanel = () => {
       <ManageGroups />
     </div>
   );
+=======
+import React from "react";
+import AdminDashboard from "../components/Admin/AdminDashboard";
+
+const AdminPanel = () => {
+  return <AdminDashboard />;
+>>>>>>> f4ff1c57 (hi)
 };
 
 export default AdminPanel;
