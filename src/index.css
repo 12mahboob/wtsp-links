@@ -2,9 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles */
+/* Additional styles */
 body {
-  @apply bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-600 text-gray-100;
+  @apply bg-gray-50 text-gray-900;
+}
+
+header {
+  @apply bg-blue-600 text-white p-4 shadow-md;
+}
+
+footer {
+  @apply bg-gray-800 text-white p-4 text-center;
 }
 
 .container {
